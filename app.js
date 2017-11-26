@@ -77,6 +77,7 @@ router.route('/cats/:cat_name')
             Cat.findByName(req.params.cat_name, function(err, cat){
                 if (err)
                     res.send(err);
+                    
                 res.json({ Age:  + cat[0].age});
             }).sort({ timestamp: -1 }).limit(1);
         }
