@@ -1,4 +1,6 @@
 Vault Dragon Coding Test:
+==========================================================================================
+
 
 Note: I've set cats as the object, key as its name and value as its age.
 
@@ -29,13 +31,17 @@ Body: JSON: {mykey : value1}
 Time: 6.00 pm
 
 Response: {"key":"mykey", "value":"value1", "timestamp": time } //Where time is timestamp of the post request (6.00pm) .
-------------------------------------------------------------------------------------
+
+
+
 Method: GET
 
 Endpoint: /object/mykey
 
 Response: {"value": value1 }
-------------------------------------------------------------------------------------
+
+
+
 Method: POST
 
 Endpoint: /object
@@ -45,13 +51,17 @@ Body: JSON: {mykey : value2}
 Time: 6.05 pm
 
 Response: {"key":"mykey", "value":"value2", "timestamp": time } //Where time is timestamp of the new value (6.05pm) 
-------------------------------------------------------------------------------------
+
+
+
 Method: GET
 
 Endpoint: /object/mykey
 
 Response: {"value": value2 }
-------------------------------------------------------------------------------------
+
+
+
 Method: GET
 
 Endpoint: /object/mykey?timestamp=1440568980 [6.03pm] // notice that the time here is not exactly 6.00pm
@@ -59,7 +69,9 @@ Endpoint: /object/mykey?timestamp=1440568980 [6.03pm] // notice that the time he
 Response: {"value": value1 } // still return value 1 , because value 2 was only added at 6.05pm
 
 All timestamps are unix timestamps according UTC timezone.
-------------------------------------------------------------------------------------
+
+
+
 Guidelines:
 
 Use NodeJS for scripting the backend.
