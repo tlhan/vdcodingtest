@@ -78,7 +78,7 @@ router.route('/cats/:cat_name')
                 if (err)
                     res.send(err);
                 res.json({ Age:  + cat[0].age});
-            });
+            }).sort({ timestamp: -1 }).limit(1);
         }
         else {
             Cat.find({timestamp: {$lte: req.query.timestamp}}, function (err, cat) {
