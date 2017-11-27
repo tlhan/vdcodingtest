@@ -1,9 +1,9 @@
 // call the packages we need
-var express     = require('express');        // call express
-var app         = express();                 // define our app using express
-var bodyParser  = require('body-parser');    // this will help with post requests
-var mongoose    = require('mongoose');       // mongoDB node package
-var Cat        = require('./app/models/cat'); 
+var express     = require('express');            // call express
+var app         = express();                     // define our app using express
+var bodyParser  = require('body-parser');        // this will help with post requests
+var mongoose    = require('mongoose');           // mongoDB node package
+var Cat        = require('./app/models/cat');    // our cat schema
 var timestamp   = require('unix-timestamp'); 
 
 timestamp.round = true; // rounds out unix-time output and removes trailing decimals
@@ -25,22 +25,21 @@ var router = express.Router();              // get an instance of the express Ro
 // middleware to use for all requests
 router.use(function(req, res, next) {
     // do logging
-    console.log('Something is happening...');
+    console.log("Router is processing " + req.method + " " + req.url);
     next(); // make sure we go to the next routes and don't stop here
 });
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
+// test route to make sure everything is working (accessed at GET http://thant.rocks/)
 router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
+    res.send("<h1> Vault Dragon API Coding Submission</h1><div>Calling the API: </div><ul style='list-style-type:square'><li><u>POST</u> requests at /cats</li><div><li><u>GET</u> requests at /cats/<catname> and /cats/<catname>?timestamp=<timestamp></li></ul>");   
 });
 
-// more routes for our API will happen here
 
 // on routes that end in /cats
 // ---------------------------------------------------
 router.route('/cats')
 
-    // create a cat (accessed at POST https://vaultdragon-tlhan.c9users.io/api/cats)
+    // create a cat (accessed at POST http://thant.rocks/cats)
     .post(function(req, res){
         var cat = new Cat(); // create a new instance of the Cat model
         cat.name = req.body.name; // set the cats key (comes from the request)
@@ -51,13 +50,16 @@ router.route('/cats')
             if(err)
                 res.send(err);
                 
-            res.json(cat);
+            res.json({ 
+                name: cat.name,
+                age: cat.age,
+                timestamp: cat.timestamp
+            });
         });
     })
     
-    // get all the cats (accessed at GET https://vaultdragon-tlhan.c9users.io/api/cats)
+    // get all the cats (accessed at GET http://thant.rocks/cats)
     .get(function(req, res) {
-        //console.log('timestamp: ' + req.query.timestamp)
         Cat.find(function(err, cats) {
             if (err)
                 res.send(err);
@@ -70,7 +72,7 @@ router.route('/cats')
 // -----------------------------------------------
 router.route('/cats/:cat_name')
 
-    //get the cat with that id (accessed at GET https://vaultdragon-tlhan.c9users.io/api/cats/:cat_id)
+    //get the cat with that id (accessed at GET http://thant.rocks/cats/:cat_id)
     .get(function(req, res) {
         if (req.query.timestamp==undefined)
         {
@@ -78,56 +80,36 @@ router.route('/cats/:cat_name')
                 if (err)
                     res.send(err);
                     
-                res.json({ Age:  + cat[0].age});
+                if(Object.keys(cat).length==0) //If no cat exists with that name
+                    res.send("Error: No cats exist with that specified name!")
+                else
+                    res.json({ Age: + cat[0].age });
             }).sort({ timestamp: -1 }).limit(1);
         }
         else {
             Cat.find({timestamp: {$lte: req.query.timestamp}}, function (err, cat) {
-              if (err)
-                res.send(err);
                 
-                res.json({ Age:  + cat[0].age});
+               if(err) 
+                   res.send(err); 
+              
+                if(Object.keys(cat).length==0) //If timestamp earlier than the earliest timestamp is chosen
+                    res.send("Error: No cats exist before the specified timestamp!")
+                else
+                    res.json({ Age: + cat[0].age });
+                
             }).sort({ timestamp: -1 }).limit(1)
         }
-            
-    })
-    
-    // update the cat with this id (accessed at PUT https://vaultdragon-tlhan.c9users.io/api/cats/:cat_id)
-    .post(function(req, res) {
-        
-        // use our cat model to find the cat we want
-        Cat.findById(req.params.cat_id, function(err, cat){
-            if(err)
-                res.send(err);
-            
-            cat.name = req.body.name; //update the cats info
-            
-            //save the cat
-            cat.save(function(err){
-                if(err)
-                    res.send(err);
-                
-                res.json({ message: 'Cat updated!'});
-            });
-        });
-    })
-    
-    // delete the cat with this id (accessed at DELETE https://vaultdragon-tlhan.c9users.io/api/cats/:cat_id)
-    .delete(function(req, res)
-    {
-        Cat.remove({
-            _id: req.params.cat_id
-        }, function(err, cat) {
-            if(err)
-                res.send(err);
-            
-            res.json( {message: 'Successfully deleted'});
-        });
     });
 
+
+//Exception catch for unspecified wildcard routes
+router.get('/*', function(req, res) {
+    res.send("Error: No existing routes at the specified path");   
+});
+
 // REGISTER OUR ROUTES -------------------------------
-// all of our routes will be prefixed with /api
-app.use('/api', router);
+// all of our routes will run on root path /
+app.use('/', router);
 
 // START THE SERVER
 // =============================================================================
