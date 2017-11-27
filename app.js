@@ -31,7 +31,7 @@ router.use(function(req, res, next) {
 
 // test route to make sure everything is working (accessed at GET http://thant.rocks/)
 router.get('/', function(req, res) {
-    res.send("<h1> Vault Dragon API Coding Submission</h1><div>Calling the API: </div><ul style='list-style-type:square'><li><u>POST</u> requests at /cats</li><div><li><u>GET</u> requests at /cats/<catname> and /cats/<catname>?timestamp=<timestamp></li></ul>");   
+    res.send("<h1> VD API CS</h1><div>Cat Object Schema: </div><ul><li>name: String</li><li>age: Number</li><li>timestamp: Number (no need to POST this)</li></ul><div>Calling the API: </div><ul style='list-style-type:square'><li><u>POST</u> requests at /cats</li><div><li><u>GET</u> requests at /cats/(cat name) and /cats/(cat name)?timestamp=(timestamp)</li></ul>");   
 });
 
 
