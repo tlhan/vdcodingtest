@@ -2,7 +2,7 @@ var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var CatSchema   = new Schema({
-	name: String,
+	name: { type: String, required: [true, 'Every cat needs a name']},
 	age: Number,
 	timestamp: Number
 });
