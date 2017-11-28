@@ -17,7 +17,7 @@ timestamp.round = true; // rounds out unix-time output and removes trailing deci
 mongoose.connect("mongodb://tlhan:12345@ds119476.mlab.com:19476/codingtest", options);
 
 // configure app to use bodyParser()
-// this will let us get the data from a POST
+// this will let us send JSON to a GET
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -54,8 +54,7 @@ router.route('/cats')
         // ----Input sanitization----
         // If cat's age is not null, a number, less than 20 -- accept the input. 
         // Otherwise reject 
-        // (just one if condition to give general error; dont want the code to be too long for this test.)
-        
+
         // Alphanumeric input cross check variable for name input sanitization
         var letters = /^[0-9a-zA-Z ]+$/; 
         
@@ -94,11 +93,11 @@ router.route('/cats')
         });
     });
     
-// on routes that end in /cats/:cat_id
+// on routes that end in /cats/:name
 // -----------------------------------------------
-router.route('/cats/:cat_name')
+router.route('/cats/:name')
 
-    //get the cat with that id (accessed at GET http://thant.rocks/cats/:cat_id)
+    //get the cat with that name (accessed at GET http://thant.rocks/cats/:name)
     .get(function(req, res) {
         if (req.query.timestamp==undefined)
         {
