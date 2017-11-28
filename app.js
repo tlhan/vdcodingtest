@@ -93,11 +93,11 @@ router.route('/cats')
         });
     });
     
-// on routes that end in /cats/:name
+// on routes that end in /cats/:cat_name
 // -----------------------------------------------
-router.route('/cats/:name')
+router.route('/cats/:cat_name')
 
-    //get the cat with that name (accessed at GET http://thant.rocks/cats/:name)
+    //get the cat with that name (accessed at GET http://thant.rocks/cats/:cat_name)
     .get(function(req, res) {
         if (req.query.timestamp==undefined)
         {
