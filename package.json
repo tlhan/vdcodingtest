@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha --timeout 10000",
-    "start": "node app.js"
+    "start": "forever start app.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "config": "^1.28.1",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
+    "forever": "^0.15.3",
     "mongoose": "^4.13.5",
     "morgan": "^1.9.0",
     "request": "^2.83.0",
