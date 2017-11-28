@@ -17,7 +17,7 @@ I've set cat as the object, name as its key and age as its value.
     - /cats
     
     GET requests    
-    - /         *to get all cats in mongoDB, for easier testing*
+    - /cats     *to get all cats in mongoDB, for easier testing*
     - /cats/(name)  
     - /cats/(name)?timestamp=(timestamp value)
 
