@@ -1,7 +1,7 @@
 Vault Dragon Coding Test
 ==========================================================================================
 
-I've set cats as the object, key as its name and value as its age.
+I've set cat as the object, name as its key and age as its value.
 
     Cat Object Schema:
 
