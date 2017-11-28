@@ -1,9 +1,27 @@
 Vault Dragon Coding Test
 ==========================================================================================
 
+I've set cats as the object, key as its name and value as its age.
 
-Note: I've set cats as the object, key as its name and value as its age.
+    Cat Object Schema:
 
+    name: String (required)
+    age: Number (required)
+    timestamp: Number (not required)
+    
+  ------
+  
+    Using the API:
+    
+    POST requests   
+    - /cats
+    
+    GET requests    
+    - /         *to get all cats in mongoDB, for easier testing*
+    - /cats/(name)  
+    - /cats/(name)?timestamp=(timestamp value)
+
+  ------
 
 
 
